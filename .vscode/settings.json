@@ -1,0 +1,35 @@
+{
+    "files.trimTrailingWhitespace": true,
+	"files.exclude": {
+		"**/*.js": {
+			"when": "$(basename).ts"
+		},
+		"**/*.map": {
+			"when": "$(basename)"
+		},
+		"**/*.css": {
+			"when": "$(basename).scss"
+		},
+		"**/*.metadata.json": true,
+		"node_modules": true,
+		"npm": true,
+		"aot": true,
+		"dist": true,
+		"build*": true,
+		"build": true,
+		"test_output": true,
+		"npm-debug.log*": true,
+    },
+    "search.exclude": {
+		"npm": true,
+		"node_modules": true,
+		"build": true,
+		"build*": true,
+		"aot": true,
+		"dist": true,
+		"test_output": true
+    },
+    "editor.insertSpaces": true,
+	"editor.tabSize": 4,
+	"editor.detectIndentation": false
+}

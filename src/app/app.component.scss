@@ -1,0 +1,16 @@
+$page-container-margin: 20px !default;
+
+:host {
+    .body {
+        min-height: 100vh;
+        height: 100vh;
+    }
+
+    .page-container {
+        margin: $page-container-margin;
+    }
+
+    router-outlet {
+        display: none;
+    }
+}

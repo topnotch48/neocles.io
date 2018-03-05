@@ -1,1 +1,63 @@
 /* You can add global styles to this file, and also import other style files */
+.stack {
+    display: flex;
+    flex-direction: column;
+
+    > * {
+        flex-grow: 1;
+
+        &.is-narrow {
+            flex: none;
+        }
+    }
+}
+
+@mixin stack-layout {
+    display: flex;
+    flex-direction: column;
+
+    > * {
+        flex-grow: 1;
+
+        &.is-narrow {
+            flex: none;
+        }
+    }
+}
+
+.is-centered,
+.is-centered-v {
+  display: flex;
+  align-items: center;
+}
+
+.is-centered-h {
+  display: flex;
+  justify-content: center;
+}
+
+.is-centered-vh {
+  @extend .is-centered-h;
+  @extend .is-centered-v;
+}
+
+@mixin fill-parent {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+.is-filled,
+router-outlet.is-filled + * {
+  position: relative;
+
+  > *:only-child,
+  > router-outlet:first-child + *:last-child {
+    /* and the only sibling of router-outlet */
+    @include fill-parent;
+    margin: 0;
+    overflow: auto;
+  }
+}
