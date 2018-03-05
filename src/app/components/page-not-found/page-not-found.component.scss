@@ -1,9 +1,11 @@
+@import "~bulma/sass/utilities/_all";
+
 :host {
     img {
         border-radius: 15px;
     }
 
     a {
-
+        color: $primary;
     }
 }
