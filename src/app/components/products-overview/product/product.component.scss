@@ -1,0 +1,9 @@
+@import "~bulma/sass/utilities/_all";
+
+:host {
+    width: 100%;
+
+    strong {
+        color: $primary;
+    }
+}

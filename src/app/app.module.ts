@@ -5,12 +5,14 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routing';
-import { LoginComponent, ProductsSearchComponent, PageNotFoundComponent } from './components';
+import { LoginComponent, ProductsSearchComponent, PageNotFoundComponent, ProductsComponent, ProductsFilterComponent } from './components';
 
 const components = [
     LoginComponent,
     ProductsSearchComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ProductsComponent,
+    ProductsFilterComponent
 ]
 
 const modules = [
