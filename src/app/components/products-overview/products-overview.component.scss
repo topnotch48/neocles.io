@@ -2,14 +2,14 @@
     height: 100%;
 
 
-    .products-container {
+    .product-container {
         padding: 20px;
 
         width: 100%;
         display: flex;
         flex-wrap: wrap;
 
-        > div {
+        > * {
             width: 100%;
         }
     }

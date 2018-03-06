@@ -1,22 +1,57 @@
 <div class="is-centered-vh">
     <div class="login-container is-centered-h has-text-centered stack">
+
         <h3 class="title has-text-grey">Login</h3>
         <p class="subtitle has-text-grey">Please login to proceed.</p>
+
         <div class="box">
-            <form>
+            <form [formGroup]="form">
                 <div class="field">
                     <div class="control">
-                        <input class="input is-large" type="email" placeholder="Your Email" autofocus="">
+                        <input [class.is-danger]="(form.controls.username.touched || form.controls.username.dirty) && form.controls.username.errors"
+                            [required]="true" [formControl]="form.controls.username" class="input is-large" type="email" placeholder="Your Email">
                     </div>
+                    <ng-container *ngIf="(form.controls.username.touched || form.controls.username.dirty) && form.controls.username.errors">
+                        <p *ngIf="form.controls.username.hasError('required')" class="help is-danger">
+                            Username is required field.
+                        </p>
+                        <p *ngIf="form.controls.username.hasError('email')" class="help is-danger">
+                            Username should be a valid email address.
+                        </p>
+                        <p *ngIf="form.controls.username.hasError('maxlength')" class="help is-danger">
+                            Username should not exceed {{ validationOptions.usernameMaxLength }} symbols.
+                        </p>
+                        <p *ngIf="form.controls.username.hasError('minlength')" class="help is-danger">
+                            Username should be at least {{ validationOptions.usernameMinLength }} symbols.
+                        </p>
+                    </ng-container>
                 </div>
 
                 <div class="field">
                     <div class="control">
-                        <input class="input is-large" type="password" placeholder="Your Password">
+                        <input [class.is-danger]="(form.controls.password.touched || form.controls.password.dirty) && form.controls.password.errors"
+                            [required]="true" [formControl]="form.controls.password" class="input is-large" type="password" placeholder="Your Password">
                     </div>
+                    <ng-container *ngIf="(form.controls.password.touched || form.controls.password.dirty) && form.controls.password.errors">
+                        <p *ngIf="form.controls.password.hasError('required')" class="help is-danger">
+                            Password is required field.
+                        </p>
+                        <p *ngIf="form.controls.password.hasError('maxlength')" class="help is-danger">
+                            Password should not exceed {{ validationOptions.passwordeMaxLength }} symbols.
+                        </p>
+                        <p *ngIf="form.controls.password.hasError('minlength')" class="help is-danger">
+                            Password should be at least {{ validationOptions.passwordMinLength }} symbols.
+                        </p>
+                    </ng-container>
                 </div>
 
-                <button class="button is-primary is-outlined is-large is-fullwidth">Login</button>
+                <button
+                    [disabled]="!form.valid"
+                    (click)="login()"
+                    [class.is-loading]="inProgress | async"
+                    class="button is-primary is-outlined is-large is-fullwidth">
+                    Login
+                </button>
             </form>
         </div>
     </div>

@@ -1,11 +1,11 @@
 
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 @Component({
     selector: 'product',
     templateUrl: './product.component.html',
     styleUrls: ['./product.component.scss'],
 })
-export class ProductsComponent {
-
+export class ProductComponent {
+    @Input() item: any;
 }
