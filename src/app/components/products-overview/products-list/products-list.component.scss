@@ -1,0 +1,21 @@
+$product-container-padding: 20px !default;
+
+:host {
+    height: 100%;
+
+    virtual-scroll {
+        height: 100%;
+    }
+
+    .product-container {
+        padding: $product-container-padding;
+
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+
+        > * {
+            width: 100%;
+        }
+    }
+}

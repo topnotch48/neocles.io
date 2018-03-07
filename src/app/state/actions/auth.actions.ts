@@ -4,12 +4,12 @@ import { Token } from "../../models";
 export enum ActionTypes {
     LOGIN_REDIRECT = "Redirect to login page",
     AUTHENTICATE = "Authenticate user",
+    REFRESH_TOKEN = "Refresh auth token",
     AUTHENTICATE_SUCCEED = "Authenticate user succeed",
     AUTHENTICATE_FAILED = "Authenticate user failed",
     GET_ACCOUNT = "Get user account",
     GET_ACCOUNT_SUCCEED = "Get user account succeeed",
     GET_ACCOUNT_FAILED = "Get user account failed",
-    REFRESH_TOKEN = "Refresh access token"
 }
 
 export class LoginRedirect implements Action {
@@ -22,6 +22,13 @@ export class Authenticate implements Action {
     readonly type = ActionTypes.AUTHENTICATE;
 
     constructor(public username: string, public password: string) {
+    }
+}
+
+export class RefreshToken implements Action {
+    readonly type = ActionTypes.REFRESH_TOKEN;
+
+    constructor(public refreshToken: string) {
     }
 }
 
@@ -67,13 +74,6 @@ export class AuthenticateFailed implements Action {
     }
 }
 
-export class RefreshToken implements Action {
-    readonly type = ActionTypes.REFRESH_TOKEN;
-
-    constructor(public refreshToken: string) {
-    }
-}
-
 export type Actions =
     Authenticate |
     AuthenticateFailed |
@@ -81,4 +81,5 @@ export type Actions =
     GetAccount |
     GetAccountSucceed |
     GetAccountFailed |
+    LoginRedirect |
     RefreshToken

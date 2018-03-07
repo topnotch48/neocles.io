@@ -2,12 +2,13 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import * as fromProducts from "../actions/products.actions";
 import { AppConfiguration } from "../../app.config";
-import { debounceTime, distinctUntilChanged, switchMap, withLatestFrom, map, catchError } from "rxjs/operators";
+import { debounceTime, distinctUntilChanged, switchMap, withLatestFrom, map, catchError, exhaustMap, concat } from "rxjs/operators";
 import { of } from "rxjs/observable/of";
 import { State } from "..";
 import { Store } from "@ngrx/store";
-import { ProductsService } from "../../shared";
+import { ProductsService, fetchMessageFromError } from "../../shared";
 import { GetProductsOptions } from "../../models";
+import { ShowError } from "../actions/notification.actions";
 
 @Injectable()
 export class ProductsEffects {
@@ -45,7 +46,7 @@ export class ProductsEffects {
     onRetrieveProducts = this.actions.pipe(
         ofType<fromProducts.RetrieveProducts>(fromProducts.ActionTypes.RETRIEVE_PRODUCTS),
         withLatestFrom(this.store),
-        switchMap(([action, store]) => {
+        exhaustMap(([action, store]) => {
             const query = store.products.productsFilter;
             const startIndex = store.products.products.length;
             const accountId = store.auth.account.id;
@@ -61,7 +62,9 @@ export class ProductsEffects {
                         return new fromProducts.RetrieveProductsSucceed(products)
                     }),
                     catchError(error => {
-                        return of(new fromProducts.RetrieveProductsFailed(error))
+                        return of(new fromProducts.RetrieveProductsFailed(error)).pipe(
+                            concat(of (new ShowError(fetchMessageFromError(error)))),
+                        )
                     })
                 )
         }));

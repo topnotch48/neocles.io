@@ -1,8 +1,4 @@
-export type AccountRecord = {
-    accountId: string,
-    name: string
-}
-
+import { AccountRecord } from "../api/models";
 
 export class Account {
     readonly id: string;

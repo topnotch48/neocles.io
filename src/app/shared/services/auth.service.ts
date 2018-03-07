@@ -3,7 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from "rxjs/Observable";
 import { map, take } from "rxjs/operators";
 import { AppConfiguration } from "../../app.config";
-import { AuthToken, Token } from "../../models";
+import { Token } from "../../models/token";
+import { AuthToken } from "../../api/models/token";
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,8 @@ export class AuthService {
     readonly tokenUrl: string;
 
     constructor(private config: AppConfiguration, private httpClient: HttpClient) {
-        this.tokenUrl = `${this.config.apiSettings.apiBaseUrl}/token`;
+        const settings = this.config.apiSettings;
+        this.tokenUrl = `${settings.apiBaseUrl}/${settings.apiAuthSuffix}`;
     }
 
     authenticate(username: string, password: string): Observable<Token> {

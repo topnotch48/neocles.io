@@ -4,14 +4,16 @@ import { Observable } from "rxjs/Observable";
 import { catchError } from "rxjs/operators";
 import { of } from "rxjs/observable/of";
 import { Store } from "@ngrx/store";
-import { State } from "../../state";
+import { State } from "../../state/reducers";
 import { LoginRedirect } from "../../state/actions/auth.actions";
 import { ShowError } from "../../state/actions/notification.actions";
+import { _throw } from 'rxjs/observable/throw';
+import { fetchMessageFromError } from "../../shared";
 
 @Injectable()
 export class AuthErrorInterceptor implements HttpInterceptor {
 
-    readonly statuses = [401, 403];
+    readonly statusesToHandle = [401, 403];
 
     constructor(private store: Store<State>) {
     }
@@ -20,14 +22,15 @@ export class AuthErrorInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(
             catchError(error => {
                 if (error instanceof HttpErrorResponse) {
-                    if (this.statuses.includes(error.status)) {
+                    if (this.statusesToHandle.includes(error.status)) {
+                        const errorMessage = fetchMessageFromError(error);
                         this.store.dispatch(new LoginRedirect());
-                        const errorMessage = `${error.status} ${error.statusText}`;
                         this.store.dispatch(new ShowError(errorMessage));
                         return of();
                     }
                 }
-                return of(error);
+
+                return _throw(error);
             })
         )
     }

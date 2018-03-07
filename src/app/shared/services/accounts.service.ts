@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs/Observable";
 import { flatMap, take } from "rxjs/operators";
 import { AppConfiguration } from "../../app.config";
-import { AccountRecord, Account } from "../../models";
+import { Account } from "../../models";
+import { AccountRecord } from "../../api/models";
 
 
 @Injectable()

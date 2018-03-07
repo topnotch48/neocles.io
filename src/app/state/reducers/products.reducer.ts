@@ -1,8 +1,9 @@
 import * as fromProducts from "../actions/products.actions";
+import { Product } from "../../models";
 
 export type ProductsState = {
     productsFilter: string,
-    products: any[],
+    products: Product[],
     isRequestInProgress: boolean,
     lastError: any | null,
 }
@@ -20,12 +21,12 @@ export function reducer(state = initialState, action: fromProducts.Actions) {
             if (!action.filter)
                 return { ...initialState };
 
-            const isContinueFilter = state.productsFilter.includes(action.filter);
+            const doContinuePrevFilter = state.productsFilter.includes(action.filter);
 
             return {
                 ...state,
                 productsFilter: action.filter,
-                products: isContinueFilter ? state.products : []
+                products: doContinuePrevFilter ? state.products : []
             };
 
         case fromProducts.ActionTypes.RETRIEVE_PRODUCTS:

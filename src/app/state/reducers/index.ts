@@ -25,3 +25,5 @@ export const isAuthorized = createSelector(getAuthState, state => {
 });
 
 export const getProducts = createSelector(getProductsState, state => state.products);
+export const hasProducts = createSelector(getProducts, products => products.length > 0);
+export const isLoadingProducts = createSelector(getProductsState, state => state.isRequestInProgress);

@@ -1,6 +1,8 @@
 import * as fromAuth from "../actions/auth.actions";
 import { Token, Account } from "../../models";
 
+// todo would we nice to add something like a local storage save
+// for token to avoid extra login steps on page reload
 export type AuthState = {
     token: Token,
     account: Account,
@@ -17,6 +19,12 @@ export const initialState: AuthState = {
 
 export function reducer(state = initialState, action: fromAuth.Actions) {
     switch (action.type) {
+        case fromAuth.ActionTypes.LOGIN_REDIRECT:
+            return {
+                ...initialState,
+                lastError: state.lastError
+            };
+
         case fromAuth.ActionTypes.AUTHENTICATE:
             return {
                 ...state,

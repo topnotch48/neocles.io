@@ -1,11 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import * as fromAuth from "../actions/auth.actions";
-import { switchMap, catchError, map, tap } from 'rxjs/operators';
+import { switchMap, catchError, map, tap, flatMap, concat } from 'rxjs/operators';
 import { of } from "rxjs/observable/of";
-import { AuthService, AccountsService } from "../../shared";
+import { AuthService, AccountsService } from "../../shared/services";
 import { Router } from "@angular/router";
 import { Constants } from "../../app.routing-constants";
+import { ShowError } from "../actions/notification.actions";
+import { fetchMessageFromError } from "../../shared";
 
 @Injectable()
 export class AuthEffects {
@@ -15,7 +17,6 @@ export class AuthEffects {
         private actions: Actions,
         private authService: AuthService,
         private accountsService: AccountsService) {
-
     }
 
     @Effect()
@@ -24,18 +25,40 @@ export class AuthEffects {
         switchMap((action) => {
             return this.authService.authenticate(action.username, action.password)
                 .pipe(
-                    map(token => {
-                        return new fromAuth.AuthenticateSucceed(token);
+                    flatMap(token => {
+                        return [
+                            new fromAuth.AuthenticateSucceed(token),
+                            new fromAuth.GetAccount()
+                        ]
                     }),
                     catchError(error => {
-                        return of(new fromAuth.AuthenticateFailed(error));
+                        return of(new fromAuth.AuthenticateFailed(error)).pipe(
+                            concat(of (new ShowError(fetchMessageFromError(error)))),
+                        )
                     })
                 )
         }));
 
     @Effect()
-    onSuccessfulAuthentication = this.actions.pipe(
-        ofType<fromAuth.AuthenticateSucceed>(fromAuth.ActionTypes.AUTHENTICATE_SUCCEED),
+    onRefreshToken = this.actions.pipe(
+        ofType<fromAuth.RefreshToken>(fromAuth.ActionTypes.REFRESH_TOKEN),
+        switchMap((action) => {
+            return this.authService.refreshToken(action.refreshToken)
+                .pipe(
+                    map(token => {
+                        return new fromAuth.AuthenticateSucceed(token);
+                    }),
+                    catchError(error => {
+                        return of(new fromAuth.AuthenticateFailed(error)).pipe(
+                            concat(of (new ShowError(fetchMessageFromError(error)))),
+                        );
+                    })
+                )
+        }));
+
+    @Effect()
+    onGetAccount = this.actions.pipe(
+        ofType<fromAuth.GetAccount>(fromAuth.ActionTypes.GET_ACCOUNT),
         switchMap((action) => {
             return this.accountsService.getDefaultAccount()
                 .pipe(
@@ -43,7 +66,9 @@ export class AuthEffects {
                         return new fromAuth.GetAccountSucceed(account)
                     }),
                     catchError(error => {
-                        return of(new fromAuth.GetAccountFailed(error))
+                        return of(new fromAuth.GetAccountFailed(error)).pipe(
+                            concat(of (new ShowError(fetchMessageFromError(error)))),
+                        )
                     })
                 )
         }));
@@ -52,7 +77,7 @@ export class AuthEffects {
     onSuccessfulAccountRetrieval = this.actions.pipe(
         ofType<fromAuth.GetAccountSucceed>(fromAuth.ActionTypes.GET_ACCOUNT_SUCCEED),
         tap(() => {
-            this.router.navigate([ Constants.ProductsOverview ]);
+            this.router.navigate([Constants.ProductsOverview]);
         })
     )
 
@@ -60,7 +85,7 @@ export class AuthEffects {
     onLoginRedirect = this.actions.pipe(
         ofType<fromAuth.LoginRedirect>(fromAuth.ActionTypes.LOGIN_REDIRECT),
         tap(() => {
-            this.router.navigate([ Constants.Login ]);
+            this.router.navigate([Constants.Login]);
         })
     )
 }

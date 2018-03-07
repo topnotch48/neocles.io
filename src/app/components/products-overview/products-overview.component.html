@@ -3,15 +3,17 @@
         <products-filter></products-filter>
     </div>
 
+    <div [class.is-loading]="(isLoadingProducts | async)"
+        class="is-filled element">
 
-    <div class="is-filled">
-        <virtual-scroll #scroll
-            [items]="products | async"
-            (update)="viewPortItems = $event"
-            (end)="fetchMore($event)">
-            <div class="product-container" *ngFor="let product of scroll.viewPortItems">
-                <product [item]="product"></product>
+        <div *ngIf="!(hasProducts | async) && !(isLoadingProducts | async)" class="is-centered-vh">
+            <div class="has-text-centered">
+                <span class="title has-text-grey" i18n>
+                    No products found which match your selection.
+                </span>
             </div>
-        </virtual-scroll>
+        </div>
+
+        <products-list *ngIf="(hasProducts | async)" [products]="products | async"></products-list>
     </div>
 </div>

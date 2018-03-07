@@ -1,12 +1,4 @@
-export type ProductsSearchResult = {
-    products: ProductRecord[],
-    totalResultCount: number,
-}
-
-export type ProductRecord = {
-    title: string,
-    baseImageUrl: string,
-}
+import { ProductRecord } from "../api/models";
 
 export class Product {
     readonly title: string;

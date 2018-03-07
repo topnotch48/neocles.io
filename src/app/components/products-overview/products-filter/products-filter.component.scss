@@ -1,8 +1,11 @@
+$product-filter-height: 90px !default;
+$product-filter-search-control-margin: 20px !default;
+
 .products-search {
-    height: 90px;
+    height: $product-filter-height;
 
     .search-control {
-        margin-top: 20px;
+        margin-top: $product-filter-search-control-margin;
         width: 60%;
     }
 }
