@@ -13,13 +13,10 @@ import { Authenticate } from "../../state/actions/auth.actions";
     styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
     @Input() validationOptions: LoginValidationSettings
-
     form: FormGroup;
     usernameCtrl: FormControl;
     passwordCtrl: FormControl;
-
     inProgress: Observable<boolean>;
 
     constructor(private store: Store<State>, config: AppConfiguration, private fb: FormBuilder) {
@@ -51,8 +48,8 @@ export class LoginComponent implements OnInit {
     }
 
     public login() {
-        // const username = this.form.controls.username.value;
-        // const password = this.form.controls.password.value;
-        this.store.dispatch(new Authenticate("test@neocles.io", "neoclestest"));
+        const username = this.form.controls.username.value;
+        const password = this.form.controls.password.value;
+        this.store.dispatch(new Authenticate(username, password));
     }
 }

@@ -1,5 +1,5 @@
-namespace Constants {
-    export const ProductsOverview = "products-overview"
-    export const Login = "login";
-    export const PageNotFound = "page-not-found";
+export class Constants {
+    public static readonly ProductsOverview = "products-overview"
+    public static readonly Login = "login";
+    public static readonly PageNotFound = "page-not-found";
 }

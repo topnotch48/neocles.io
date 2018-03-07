@@ -5,6 +5,7 @@ import { switchMap, catchError, map, tap } from 'rxjs/operators';
 import { of } from "rxjs/observable/of";
 import { AuthService, AccountsService } from "../../shared";
 import { Router } from "@angular/router";
+import { Constants } from "../../app.routing-constants";
 
 @Injectable()
 export class AuthEffects {
@@ -50,6 +51,14 @@ export class AuthEffects {
     @Effect({ dispatch: false })
     onSuccessfulAccountRetrieval = this.actions.pipe(
         ofType<fromAuth.GetAccountSucceed>(fromAuth.ActionTypes.GET_ACCOUNT_SUCCEED),
+        tap(() => {
+            this.router.navigate([ Constants.ProductsOverview ]);
+        })
+    )
+
+    @Effect({ dispatch: false })
+    onLoginRedirect = this.actions.pipe(
+        ofType<fromAuth.LoginRedirect>(fromAuth.ActionTypes.LOGIN_REDIRECT),
         tap(() => {
             this.router.navigate([ Constants.Login ]);
         })

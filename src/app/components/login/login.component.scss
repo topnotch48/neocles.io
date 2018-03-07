@@ -1,8 +1,11 @@
+$login-box-max-width: 480px !default;
+$login-box-width: 60% !default;
+
 :host {
     height: 100%;
 
     .login-container {
-        width: 60%;
-        max-width: 480px;
+        width: $login-box-width;
+        max-width: $login-box-max-width;
     }
 }

@@ -14,8 +14,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as effects from './state/effects/index';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthService, AccountsService, ProductsService, NotificationsComponent } from './shared';
-import { AuthInterceptor, ErrorInterceptor } from './api';
+import { AuthService, AccountsService, ProductsService, NotificationsComponent, AuthGuard } from './shared';
+import { AuthInterceptor, AuthErrorInterceptor } from './api';
 
 
 const components = [
@@ -36,11 +36,16 @@ const modules = [
     VirtualScrollModule
 ];
 
+const guards = [
+    AuthGuard,
+];
+
 const providers = [
     AppConfiguration,
     AuthService,
     AccountsService,
-    ProductsService
+    ProductsService,
+    ...guards
 ];
 
 const interceptors = [
@@ -51,7 +56,7 @@ const interceptors = [
     },
     {
         provide: HTTP_INTERCEPTORS,
-        useClass: ErrorInterceptor,
+        useClass: AuthErrorInterceptor,
         multi: true
     }
 ];
@@ -67,13 +72,14 @@ const interceptors = [
         StoreModule.forRoot(reducers),
         EffectsModule.forRoot([
             effects.AuthEffects,
-            effects.NotificationEffects
+            effects.NotificationEffects,
+            effects.ProductsEffects
         ]),
         RouterModule.forRoot(routes, { useHash: true })
     ],
     providers: [
         ...providers,
-        ...interceptors
+        ...interceptors,
     ],
     bootstrap: [
         AppComponent

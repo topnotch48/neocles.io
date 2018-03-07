@@ -5,11 +5,11 @@
 
 
     <div class="is-filled">
-        <!-- <div class="products-container" *ngFor="let product of products">
-                    <product  class="box" [item]="product"></product>
-                </div> -->
-        <virtual-scroll #scroll [items]="products">
-            <div class="product-container" *ngFor="let product of products">
+        <virtual-scroll #scroll
+            [items]="products | async"
+            (update)="viewPortItems = $event"
+            (end)="fetchMore($event)">
+            <div class="product-container" *ngFor="let product of scroll.viewPortItems">
                 <product [item]="product"></product>
             </div>
         </virtual-scroll>

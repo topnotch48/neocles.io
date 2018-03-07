@@ -13,7 +13,7 @@ export class AccountsService {
     }
 
     getAccounts(): Observable<Account> {
-        const url = `${this.config.apiBaseUrl}/api/accounts`;
+        const url = `${this.config.apiSettings.apiBaseUrl}/api/accounts`;
         return this.httpClient.get<AccountRecord[]>(url)
             .pipe(
                 flatMap(accounts => {

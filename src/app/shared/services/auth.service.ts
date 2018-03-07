@@ -11,7 +11,7 @@ export class AuthService {
     readonly tokenUrl: string;
 
     constructor(private config: AppConfiguration, private httpClient: HttpClient) {
-        this.tokenUrl = `${this.config.apiBaseUrl}/token`;
+        this.tokenUrl = `${this.config.apiSettings.apiBaseUrl}/token`;
     }
 
     authenticate(username: string, password: string): Observable<Token> {

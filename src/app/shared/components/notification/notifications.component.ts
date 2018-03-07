@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { Options } from "angular2-notifications";
+import { AppConfiguration } from "../../../app.config";
 
 @Component({
     selector: 'notifications-area',
@@ -7,12 +8,12 @@ import { Options } from "angular2-notifications";
 })
 export class NotificationsComponent {
     options: Options;
-    constructor() {
+    constructor(config: AppConfiguration) {
         this.options = <Options> {
             position: [ "top", "center" ],
-            showProgressBar: false,
             preventDuplicates: true,
-            clickToClose: true
+            clickToClose: true,
+            ...config.notificationSettings
         }
     }
 }

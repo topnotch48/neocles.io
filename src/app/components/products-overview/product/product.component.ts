@@ -1,5 +1,6 @@
 
 import { Component, Input } from "@angular/core";
+import { Product } from "../../../models";
 
 @Component({
     selector: 'product',
@@ -7,5 +8,12 @@ import { Component, Input } from "@angular/core";
     styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent {
-    @Input() item: any;
+    @Input() imageSize: number = 128;
+    @Input() item: Product;
+
+    isLoading: boolean = true;
+
+    onImageLoaded(event) {
+        this.isLoading = false;
+    }
 }

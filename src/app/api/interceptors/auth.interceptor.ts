@@ -21,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
                     take(1),
                     switchMap((state) => {
                         if (state.token && !state.token.isExpired) {
-                            const headerValue = `${state.token.tokenType}sd ${state.token.accessToken}`;
+                            const headerValue = `${state.token.tokenType} ${state.token.accessToken}`;
                             const headers = request.headers.set(this.authHeader, headerValue);
                             request = request.clone({
                                 headers: headers

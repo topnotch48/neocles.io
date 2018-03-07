@@ -1,5 +1,5 @@
 import * as fromAuth from "../actions/auth.actions";
-import { Token } from "../../models";
+import { Token, Account } from "../../models";
 
 export type AuthState = {
     token: Token,

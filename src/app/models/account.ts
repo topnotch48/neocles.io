@@ -5,10 +5,10 @@ export type AccountRecord = {
 
 
 export class Account {
-    readonly accountId: string;
+    readonly id: string;
     readonly name: string;
     constructor(account: AccountRecord) {
-        this.accountId = account.accountId;
+        this.id = account.accountId;
         this.name = account.name;
     }
 }

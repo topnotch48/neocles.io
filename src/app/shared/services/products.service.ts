@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from "rxjs/Observable";
-import { map } from "rxjs/operators";
-import { GetProductsOptions } from "../../models";
+import { map, take } from "rxjs/operators";
+import { GetProductsOptions, ProductsSearchResult, Product } from "../../models";
 import { AppConfiguration } from "../../app.config";
 
 @Injectable()
@@ -23,16 +23,19 @@ export class ProductsService {
             { ...this.defaultProductsOptions, ...options } :
             this.defaultProductsOptions;
 
-        const url = `${this.config.apiBaseUrl}/api/products/${accountId}/`;
+        const url = `${this.config.apiSettings.apiBaseUrl}/api/products/${accountId}/`;
 
-        let params = new HttpParams();
-        params = params.set('q', productsOptions.searchQuery);
-        params = params.set('start', productsOptions.startIndex.toString());
-        params = params.set('num', productsOptions.numberOfItems.toString());
+        const params = new HttpParams()
+            .set('q', productsOptions.searchQuery)
+            .set('start', productsOptions.startIndex.toString())
+            .set('num', productsOptions.numberOfItems.toString());
 
-        return this.httpClient.get(url)
-            .pipe(map(products => {
-                return products;
-            }));
+        return this.httpClient.get(url, { params: params })
+            .pipe(
+                map((searchResult: ProductsSearchResult) => {
+                    return searchResult.products.map(p => new Product(p));
+                }),
+                take(1)
+            );
     }
 }

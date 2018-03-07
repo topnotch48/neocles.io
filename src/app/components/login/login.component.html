@@ -8,8 +8,11 @@
             <form [formGroup]="form">
                 <div class="field">
                     <div class="control">
-                        <input [class.is-danger]="(usernameCtrl.touched || usernameCtrl.dirty) && usernameCtrl.errors"
-                            [required]="true" [formControl]="usernameCtrl" class="input is-large" type="email" placeholder="Your Email">
+                        <input
+                            [class.is-danger]="(usernameCtrl.touched || usernameCtrl.dirty) && usernameCtrl.errors"
+                            [required]="true"
+                            [formControl]="usernameCtrl"
+                            class="input is-large" type="email" placeholder="Your Email">
                     </div>
                     <ng-container *ngIf="(usernameCtrl.touched || usernameCtrl.dirty) && usernameCtrl.errors">
                         <p *ngIf="usernameCtrl.hasError('required')" class="help is-danger">
@@ -29,8 +32,11 @@
 
                 <div class="field">
                     <div class="control">
-                        <input [class.is-danger]="(passwordCtrl.touched || passwordCtrl.dirty) && passwordCtrl.errors"
-                            [required]="true" [formControl]="passwordCtrl" class="input is-large" type="password" placeholder="Your Password">
+                        <input
+                            [class.is-danger]="(passwordCtrl.touched || passwordCtrl.dirty) && passwordCtrl.errors"
+                            [required]="true"
+                            [formControl]="passwordCtrl"
+                            class="input is-large" type="password" placeholder="Your Password">
                     </div>
                     <ng-container *ngIf="(passwordCtrl.touched || passwordCtrl.dirty) && passwordCtrl.errors">
                         <p *ngIf="passwordCtrl.hasError('required')" class="help is-danger">
@@ -48,7 +54,7 @@
                 <button
                     [disabled]="form.invalid"
                     (click)="login()"
-                    [class.is-loading]="inProgress | async"
+                    [class.is-loading]="(inProgress | async)"
                     class="button is-primary is-outlined is-large is-fullwidth">
                     Login
                 </button>
