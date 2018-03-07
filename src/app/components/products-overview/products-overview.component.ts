@@ -1,8 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { of } from "rxjs/observable/of";
-import { IVirtualScrollOptions } from "od-virtualscroll";
-import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs/Subject";
 
 @Component({
     selector: 'products-overview',

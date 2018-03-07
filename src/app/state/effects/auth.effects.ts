@@ -1,61 +1,57 @@
-import { AuthService } from "../../services/auth.service";
 import { Injectable } from "@angular/core";
-import { Store } from "@ngrx/store";
-import { State } from "../reducers";
-import { Actions, Effect } from "@ngrx/effects";
+import { Actions, Effect, ofType } from "@ngrx/effects";
 import * as fromAuth from "../actions/auth.actions";
-import { switchMap, catchError, withLatestFrom, map } from 'rxjs/operators';
+import { switchMap, catchError, map, tap } from 'rxjs/operators';
 import { of } from "rxjs/observable/of";
+import { AuthService, AccountsService } from "../../shared";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthEffects {
 
     constructor(
+        private router: Router,
         private actions: Actions,
-        private store: Store<State>,
-        private authService: AuthService) { }
+        private authService: AuthService,
+        private accountsService: AccountsService) {
 
+    }
 
     @Effect()
-    onAuthenticate = this.actions
-        .ofType<fromAuth.Authenticate>(fromAuth.ActionTypes.AUTHENTICATE)
-        .pipe(withLatestFrom(this.store))
-        .pipe(switchMap(([action, state]) => {
-
-            const task$ = this.authService.authenticate(action.username, action.password);
-
-            return task$
-                .pipe(map(token => {
-                    return new fromAuth.AuthenticateSucceed(token);
-                }))
-                .pipe(catchError((e) => {
-                    return of(new fromAuth.AuthenticateFailed(e));
-                }));
+    onAuthenticate = this.actions.pipe(
+        ofType<fromAuth.Authenticate>(fromAuth.ActionTypes.AUTHENTICATE),
+        switchMap((action) => {
+            return this.authService.authenticate(action.username, action.password)
+                .pipe(
+                    map(token => {
+                        return new fromAuth.AuthenticateSucceed(token);
+                    }),
+                    catchError(error => {
+                        return of(new fromAuth.AuthenticateFailed(error));
+                    })
+                )
         }));
 
-        // 	@Effect()
-// 	onTemplateSelected = this.actions
-// 		.ofType<fromWizard.SelectTemplateSuccess>(fromWizard.ActionTypes.STEPS_SELECT_TEMPLATE_SUCCESS)
-// 		.withLatestFrom(this.store)
-//         .map(([action, state]) => {
-// 			const matterName = state.matter.currentMatterName;
-// 			const productionName = generateProductionName(matterName);
-// 			const batesInfo = action.template.BatesInfo;
-// 			return new fromWizard.DefineProduction(productionName, batesInfo);
-// 		});
-// =
+    @Effect()
+    onSuccessfulAuthentication = this.actions.pipe(
+        ofType<fromAuth.AuthenticateSucceed>(fromAuth.ActionTypes.AUTHENTICATE_SUCCEED),
+        switchMap((action) => {
+            return this.accountsService.getDefaultAccount()
+                .pipe(
+                    map(account => {
+                        return new fromAuth.GetAccountSucceed(account)
+                    }),
+                    catchError(error => {
+                        return of(new fromAuth.GetAccountFailed(error))
+                    })
+                )
+        }));
 
-// 	@Effect()
-// 	onCreateProductionSuccess = this.actions
-// 		.ofType<fromWizard.CreateProductionSuccess>(fromWizard.ActionTypes.CREATE_PRODUCTION_SUCCESS)
-// 		.map(action => {
-// 			return new fromWizard.ResetWizard();
-// 		});
-
-//     @Effect()
-//     onCreateProductionFailed = this.actions
-//         .ofType<fromWizard.CreateProductionFailure>(fromWizard.ActionTypes.CREATE_PRODUCTION_FAILURE)
-//         .map(action => {
-//             return new CommonError(action.err);
-//         });
+    @Effect({ dispatch: false })
+    onSuccessfulAccountRetrieval = this.actions.pipe(
+        ofType<fromAuth.GetAccountSucceed>(fromAuth.ActionTypes.GET_ACCOUNT_SUCCEED),
+        tap(() => {
+            this.router.navigate([ Constants.Login ]);
+        })
+    )
 }

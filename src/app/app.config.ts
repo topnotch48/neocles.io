@@ -3,6 +3,12 @@ import { Injectable } from "@angular/core";
 
 @Injectable()
 export class AppConfiguration {
+    readonly apiSettings = {
+        products: {
+            numberOfItems: 10,
+
+        }
+    }
     readonly defaultLoginValidationSettings: LoginValidationSettings = {
         passwordMaxLength: 50,
         passwordMinLength: 8,
