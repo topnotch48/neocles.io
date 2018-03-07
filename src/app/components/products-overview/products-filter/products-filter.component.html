@@ -1,8 +1,7 @@
 <div class="products-search is-centered-h">
     <div class="search-control control has-icons-left">
         <div class="field">
-            <input [ngModel]="filterValue" (ngModelChange)="triggerFilter($event)"
-                class="input is-large" type="text" placeholder="Fancy shoes" autofocus>
+            <input #filter class="input is-large" type="text" placeholder="Fancy shoes" autofocus>
             <span class="icon is-medium is-left">
                 <i class="material-icons md-36">search</i>
             </span>

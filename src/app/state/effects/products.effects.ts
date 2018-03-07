@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import * as fromProducts from "../actions/products.actions";
-import { AppConfiguration } from "../../app.config";
-import { debounceTime, distinctUntilChanged, switchMap, withLatestFrom, map, catchError, exhaustMap, concat } from "rxjs/operators";
+import { distinctUntilChanged, switchMap, withLatestFrom, map, catchError, exhaustMap, concat } from "rxjs/operators";
 import { of } from "rxjs/observable/of";
 import { State } from "..";
 import { Store } from "@ngrx/store";
@@ -18,18 +17,17 @@ export class ProductsEffects {
     constructor(
         private store: Store<State>,
         private productsService: ProductsService,
-        private config: AppConfiguration,
         private actions: Actions) {
-            this.debounce = this.config.apiSettings.products.filterDebounce || 400;
+
     }
 
     @Effect()
     onFilterProducts = this.actions.pipe(
         ofType<fromProducts.FilterProducts>(fromProducts.ActionTypes.FILTER_PRODUCTS),
-        debounceTime(this.debounce),
         map(action => action.filter),
         distinctUntilChanged(),
         switchMap((filter) => {
+            console.log("filter by " + filter);
             return of(new fromProducts.ApplyFilter(filter));
         }));
 

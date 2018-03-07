@@ -14,7 +14,7 @@ export class AppConfiguration {
         apiBaseUrl: "https://epicuroapitest.azurewebsites.net",
         products: {
             numberOfItems: 10,
-            filterDebounce: 400
+            filterDebounce: 500
         }
     }
     readonly defaultLoginValidationSettings: LoginValidationSettings = {

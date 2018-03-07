@@ -12,7 +12,7 @@ export class FilterProducts implements Action {
 
     readonly type = ActionTypes.FILTER_PRODUCTS;
 
-    constructor(public filter: string = null) {
+    constructor(public filter: string = "") {
     }
 }
 
