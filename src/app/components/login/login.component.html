@@ -52,10 +52,10 @@
                 </div>
 
                 <button
-                    [disabled]="form.invalid"
+                    [disabled]="form.invalid || (inProgress | async)"
                     (click)="login()"
                     [class.is-loading]="(inProgress | async)"
-                    class="button is-primary is-outlined is-large is-fullwidth">
+                    class="button is-primary is-large is-fullwidth">
                     Login
                 </button>
             </form>

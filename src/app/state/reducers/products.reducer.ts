@@ -8,7 +8,7 @@ export type ProductsState = {
 }
 
 export const initialState: ProductsState = {
-    productsFilter: null,
+    productsFilter: "",
     products: [],
     isRequestInProgress: false,
     lastError: null
@@ -18,13 +18,14 @@ export function reducer(state = initialState, action: fromProducts.Actions) {
     switch (action.type) {
         case fromProducts.ActionTypes.APPLY_FILTER_PRODUCTS:
             if (!action.filter)
-                return {
-                    ...initialState,
-                };
+                return { ...initialState };
+
+            const isContinueFilter = state.productsFilter.includes(action.filter);
 
             return {
                 ...state,
-                productsFilter: action.filter
+                productsFilter: action.filter,
+                products: isContinueFilter ? state.products : []
             };
 
         case fromProducts.ActionTypes.RETRIEVE_PRODUCTS:

@@ -11,10 +11,12 @@ export type ProductRecord = {
 export class Product {
     readonly title: string;
     readonly imageUrl: string;
+    readonly price?: number;
 
     public getImageUrlSquare(size: number) {
         return this.getImageUrl(size, size);
     }
+
     public getImageUrl(width: number, height: number) {
         if (this.imageUrl.indexOf("?") == -1)
             return `${this.imageUrl}?width=${width}&height=${height}`;
@@ -24,5 +26,6 @@ export class Product {
     constructor(account: ProductRecord) {
         this.title = account.title;
         this.imageUrl = account.baseImageUrl;
+        this.price = null;
     }
 }

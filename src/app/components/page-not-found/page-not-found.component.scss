@@ -1,8 +1,14 @@
 @import "~bulma/sass/utilities/_all";
 
+$page-not-found-awesome-christian-image-max-size: 480px !default;
+$page-not-found-image-border-radius: 15px !default;
+
 :host {
     img {
-        border-radius: 15px;
+        border-radius: $page-not-found-image-border-radius;
+        max-width: $page-not-found-awesome-christian-image-max-size;
+        max-height: $page-not-found-awesome-christian-image-max-size;
+        margin: 0 auto;
     }
 
     a {

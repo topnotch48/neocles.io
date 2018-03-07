@@ -33,6 +33,9 @@ export class ProductsService {
         return this.httpClient.get(url, { params: params })
             .pipe(
                 map((searchResult: ProductsSearchResult) => {
+                    // todo didn't find out how to fetch product prices
+                    // thought about facets but it does not look like they contain
+                    // price per product
                     return searchResult.products.map(p => new Product(p));
                 }),
                 take(1)

@@ -26,9 +26,10 @@ export class ProductsEffects {
     onFilterProducts = this.actions.pipe(
         ofType<fromProducts.FilterProducts>(fromProducts.ActionTypes.FILTER_PRODUCTS),
         debounceTime(this.debounce),
-        distinctUntilChanged((x, y) => x.filter === y.filter),
-        switchMap((action) => {
-            return of(new fromProducts.ApplyFilter(action.filter));
+        map(action => action.filter),
+        distinctUntilChanged(),
+        switchMap((filter) => {
+            return of(new fromProducts.ApplyFilter(filter));
         }));
 
     @Effect()

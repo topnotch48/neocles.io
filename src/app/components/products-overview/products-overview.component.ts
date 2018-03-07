@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { ChangeEvent } from "angular2-virtual-scroll";
-import { Store } from "@ngrx/store";
+import { Store, select } from "@ngrx/store";
 import { State, getProducts } from "../../state";
 import { Observable } from "rxjs/Observable";
-import { first, tap } from "rxjs/operators";
+import { take } from "rxjs/operators";
 import { RetrieveProducts } from "../../state/actions/products.actions";
 
 @Component({
@@ -23,14 +23,26 @@ export class ProductsOverviewComponent implements OnInit {
     }
 
     fetchMore(event: ChangeEvent) {
-        this.products.pipe(
-            first(),
-            tap(products => {
-                console.log('fetch next chunk');
-                if (event.end === products.length){
-                    this.store.dispatch(new RetrieveProducts())
-                }
-            })
-        );
+        console.log("attemp to fetch");
+
+        this.store.pipe(
+            select(getProducts),
+            take(1),
+        ).subscribe(products => {
+            console.log("attemp to fetch");
+            if (event.end === products.length){
+                console.log("dispatched retrieve products");
+                this.store.dispatch(new RetrieveProducts());
+            }
+        });
+        // this.store.select(getProducts).pipe(
+        //     take(1),
+        //     tap(products => {
+        //         console.log('fetch next chunk');
+        //         if (event.end === products.length){
+        //             this.store.dispatch(new RetrieveProducts())
+        //         }
+        //     })
+        // );
     }
 }

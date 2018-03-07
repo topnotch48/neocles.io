@@ -1,20 +1,29 @@
 <div class="box">
-    <article class="media">
-        <div class="media-left">
-            <figure class="image element is-loading">
-                <img (load)="onImageLoaded($event)" src="{{ item.getImageUrlSquare(imageSize) }}" alt="Product Image">
+    <div class="media columns">
+        <div class="media-left column is-narrow">
+            <figure [class.is-loading]="isLoading" [ngClass]="imageClass" class="image element is-centered-vh">
+                <i *ngIf="failedToLoad" class="material-icons md-60">broken_image</i>
+                <img *ngIf="!failedToLoad" src="{{ item.getImageUrlSquare(imageSize) }}" alt="Product Image"
+                    (error)="onImageLoadFailed($event)"
+                    (load)="onImageLoaded($event)">
             </figure>
         </div>
-        <div class="media-content">
-            <div class="content">
-                <p>
+        <div class="media-content column">
+            <div class="content stack">
+                <div class="product-title">
                     <strong>{{ item.title }}</strong>
-                    <small>@johnsmith</small>
-                    <small>31m</small>
-                    <br> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa
-                    fringilla egestas. Nullam condimentum luctus turpis.
-                </p>
+                </div>
+                <div class="product-price">
+                    <small>Product price is not available</small>
+                </div>
+                <div class="product-description">
+                    <span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas.
+                        Nullam condimentum luctus turpis.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas.
+                        Nullam condimentum luctus turpis.
+                    </span>
+                </div>
             </div>
         </div>
-    </article>
+    </div>
 </div>

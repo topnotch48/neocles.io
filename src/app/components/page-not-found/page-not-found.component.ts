@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Constants } from "../../app.routing-constants";
 
 @Component({
     selector: 'page-not-found',
@@ -6,5 +7,5 @@ import { Component } from "@angular/core";
     styleUrls: ['./page-not-found.component.scss'],
 })
 export class PageNotFoundComponent {
-
+    routerLink = `/${Constants.ProductsOverview}`;
 }
