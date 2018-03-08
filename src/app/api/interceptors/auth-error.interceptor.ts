@@ -13,7 +13,7 @@ import { fetchMessageFromError } from "../../shared";
 @Injectable()
 export class AuthErrorInterceptor implements HttpInterceptor {
 
-    readonly statusesToHandle = [401, 403];
+    readonly statusesToHandle = [400, 401, 403];
 
     constructor(private store: Store<State>) {
     }
@@ -25,7 +25,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
                     if (this.statusesToHandle.includes(error.status)) {
                         const errorMessage = fetchMessageFromError(error);
                         this.store.dispatch(new LoginRedirect());
-                        this.store.dispatch(new ShowError(errorMessage));
+                        this.store.dispatch(new ShowError(errorMessage, "Client Error"));
                         return of();
                     }
                 }

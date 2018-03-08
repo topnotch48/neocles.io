@@ -9,6 +9,8 @@ export class AppConfiguration {
         showProgressBar: true
     }
 
+    // todo would be nice to have models generated based on server contracts
+    // in this case we could encapsulate all api routes in one place
     readonly apiSettings = {
         apiAuthSuffix: 'token',
         apiBaseUrl: "https://epicuroapitest.azurewebsites.net",

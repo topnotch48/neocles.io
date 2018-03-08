@@ -1,8 +1,8 @@
 <div class="is-centered-vh">
     <div class="login-container has-text-centered stack">
 
-        <h3 class="title has-text-grey">Login</h3>
-        <p class="subtitle has-text-grey">Please login to proceed.</p>
+        <h3 class="title has-text-grey" i18n>Login</h3>
+        <p class="subtitle has-text-grey" i18n>Please login to proceed.</p>
 
         <div class="box">
             <form [formGroup]="form">
@@ -12,20 +12,20 @@
                             [class.is-danger]="(usernameCtrl.touched || usernameCtrl.dirty) && usernameCtrl.errors"
                             [required]="true"
                             [formControl]="usernameCtrl"
-                            class="input is-large" type="email" placeholder="Your Email">
+                            class="input is-large" type="email" placeholder="Your Email" i18n-placeholder>
                     </div>
                     <ng-container *ngIf="(usernameCtrl.touched || usernameCtrl.dirty) && usernameCtrl.errors">
                         <p *ngIf="usernameCtrl.hasError('required')" class="help is-danger">
-                            Username is required field.
+                            <span i18n>Username is required field.</span>
                         </p>
                         <p *ngIf="usernameCtrl.hasError('email')" class="help is-danger">
-                            Username should be a valid email address.
+                            <span i18n>Username should be a valid email address.</span>
                         </p>
                         <p *ngIf="usernameCtrl.hasError('maxlength')" class="help is-danger">
-                            Username should not exceed {{ validationOptions.usernameMaxLength }} symbols.
+                            <span i18n>Username should not exceed {{ validationOptions.usernameMaxLength }} symbols.</span>
                         </p>
                         <p *ngIf="usernameCtrl.hasError('minlength')" class="help is-danger">
-                            Username should be at least {{ validationOptions.usernameMinLength }} symbols.
+                            <span i18n>Username should be at least {{ validationOptions.usernameMinLength }} symbols.</span>
                         </p>
                     </ng-container>
                 </div>
@@ -36,17 +36,17 @@
                             [class.is-danger]="(passwordCtrl.touched || passwordCtrl.dirty) && passwordCtrl.errors"
                             [required]="true"
                             [formControl]="passwordCtrl"
-                            class="input is-large" type="password" placeholder="Your Password">
+                            class="input is-large" type="password" placeholder="Your Password" i18n-placeholder>
                     </div>
                     <ng-container *ngIf="(passwordCtrl.touched || passwordCtrl.dirty) && passwordCtrl.errors">
                         <p *ngIf="passwordCtrl.hasError('required')" class="help is-danger">
-                            Password is required field.
+                            <span i18n>Password is required field.</span>
                         </p>
                         <p *ngIf="passwordCtrl.hasError('maxlength')" class="help is-danger">
-                            Password should not exceed {{ validationOptions.passwordMaxLength }} symbols.
+                            <span i18n>Password should not exceed {{ validationOptions.passwordMaxLength }} symbols.</span>
                         </p>
                         <p *ngIf="passwordCtrl.hasError('minlength')" class="help is-danger">
-                            Password should be at least {{ validationOptions.passwordMinLength }} symbols.
+                            <span i18n>Password should be at least {{ validationOptions.passwordMinLength }} symbols.</span>
                         </p>
                     </ng-container>
                 </div>
@@ -56,7 +56,7 @@
                     (click)="login()"
                     [class.is-loading]="(inProgress | async)"
                     class="button is-primary is-large is-fullwidth">
-                    Login
+                    <span i18n>Login</span>
                 </button>
             </form>
         </div>
