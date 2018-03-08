@@ -17,7 +17,7 @@ export const initialState: ProductsState = {
 
 export function reducer(state = initialState, action: fromProducts.Actions) {
     switch (action.type) {
-        case fromProducts.ActionTypes.APPLY_FILTER_PRODUCTS:
+        case fromProducts.ActionTypes.FILTER_PRODUCTS:
             if (!action.filter)
                 return { ...initialState };
 

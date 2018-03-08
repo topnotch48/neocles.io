@@ -3,7 +3,7 @@ import { Store } from "@ngrx/store";
 import { State } from "../../../state";
 import { FilterProducts } from "../../../state/actions/products.actions";
 import { fromEvent } from 'rxjs/observable/fromEvent';
-import { map, debounceTime } from "rxjs/operators";
+import { map, debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { ISubscription } from "rxjs/Subscription";
 import { AppConfiguration } from "../../../app.config";
 
@@ -29,7 +29,8 @@ export class ProductsFilterComponent implements OnInit, OnDestroy {
         const input$ =
             fromEvent(this.input.nativeElement, 'keyup').pipe(
                 map((event: any) => event.target.value),
-                debounceTime(this.debounce)
+                debounceTime(this.debounce),
+                distinctUntilChanged()
             );
 
         this.sub = input$.subscribe(filter => {

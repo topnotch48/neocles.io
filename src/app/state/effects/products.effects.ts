@@ -27,18 +27,8 @@ export class ProductsEffects {
         map(action => action.filter),
         distinctUntilChanged(),
         switchMap((filter) => {
-            console.log("filter by " + filter);
-            return of(new fromProducts.ApplyFilter(filter));
-        }));
-
-    @Effect()
-    onFilterApplied = this.actions.pipe(
-        ofType<fromProducts.ApplyFilter>(fromProducts.ActionTypes.APPLY_FILTER_PRODUCTS),
-        withLatestFrom(this.store),
-        switchMap(([, store]) => {
             return of(new fromProducts.RetrieveProducts());
-        })
-    )
+        }));
 
     @Effect()
     onRetrieveProducts = this.actions.pipe(

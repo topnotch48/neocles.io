@@ -1,78 +1,5 @@
 @import "~bulma/sass/utilities/_all";
-
-.stack {
-    display: flex;
-    flex-direction: column;
-
-    > * {
-        flex-grow: 1;
-
-        &.is-narrow {
-            flex: none;
-        }
-    }
-}
-
-@mixin stack-layout {
-    display: flex;
-    flex-direction: column;
-
-    > * {
-        flex-grow: 1;
-
-        &.is-narrow {
-            flex: none;
-        }
-    }
-}
-
-.is-centered,
-.is-centered-v {
-  display: flex;
-  align-items: center;
-}
-
-.is-centered-h {
-  display: flex;
-  justify-content: center;
-}
-
-.is-centered-vh {
-  @extend .is-centered-h;
-  @extend .is-centered-v;
-}
-
-@mixin fill-parent {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-  }
-
-.is-filled,
-router-outlet.is-filled + * {
-  position: relative;
-
-  > *:only-child,
-  > router-outlet:first-child + *:last-child {
-    /* and the only sibling of router-outlet */
-    @include fill-parent;
-    margin: 0;
-    overflow: auto;
-  }
-}
-
-
-/* Rules for sizing the icon. */
-.material-icons.md-11 { font-size: 11px; }
-.material-icons.md-15 { font-size: 15px; }
-.material-icons.md-16 { font-size: 16px; }
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.material-icons.md-48 { font-size: 48px; }
-.material-icons.md-60 { font-size: 60px; }
+@import "assets/styles/_all";
 
 html {
     overflow: hidden;
@@ -80,21 +7,5 @@ html {
 
 $border: $primary;
 
-.element {
-    &.is-loading {
-        position: relative;
-        pointer-events: none;
-        opacity: 0.5;
-        &:after {
-            @include loader;
-            position: absolute;
-            top: calc(50% - 2.5em);
-            left: calc(50% - 2.5em);
-            width: 5em;
-            height: 5em;
-            border-width: 0.25em;
-        }
-    }
-}
 
 @import '~bulma';
