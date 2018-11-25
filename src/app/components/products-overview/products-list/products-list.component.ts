@@ -1,9 +1,9 @@
-import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input, ViewChild } from "@angular/core";
 import { Store } from "@ngrx/store";
+import { ChangeEvent, VirtualScrollComponent } from "angular2-virtual-scroll";
+import { Product } from "../../../models";
 import { State } from "../../../state";
 import { RetrieveProducts } from "../../../state/actions/products.actions";
-import { Product } from "../../../models";
-import { ChangeEvent } from "angular2-virtual-scroll";
 
 @Component({
     selector: 'products-list',
@@ -12,7 +12,7 @@ import { ChangeEvent } from "angular2-virtual-scroll";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsListComponent {
-
+    @ViewChild(VirtualScrollComponent) scroll: VirtualScrollComponent;
     @Input() products: Product[] = [];
 
     constructor(private store: Store<State>) {

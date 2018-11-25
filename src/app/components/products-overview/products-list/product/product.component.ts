@@ -1,7 +1,7 @@
 
-import { Component, Input, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
-import { ImageDimensions } from "./product.models";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
 import { Product } from "../../../../models";
+import { ImageDimensions } from "./product.models";
 
 @Component({
     selector: 'product',
@@ -12,7 +12,6 @@ import { Product } from "../../../../models";
 export class ProductComponent implements OnInit {
     @Input() imageSize: ImageDimensions = 128;
     @Input() item: Product;
-
     isLoading: boolean = true;
     failedToLoad: boolean = false;
     imageClass: any;

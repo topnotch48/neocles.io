@@ -1,6 +1,6 @@
-<virtual-scroll #scroll
+<virtual-scroll
     [items]="products"
-    (update)="viewPortItems = $event"
+    (update)="scroll.viewPortItems = $event"
     (end)="fetchMore($event)">
     <div class="product-container" *ngFor="let product of scroll.viewPortItems">
         <product [item]="product"></product>
